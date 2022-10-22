@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/luzix/AndroidStudioProjects/spotify_test1/app/src/main/res/layout/activity_main.xml" value="0.2994791666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1046875" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.116" />
       </map>
     </option>
   </component>

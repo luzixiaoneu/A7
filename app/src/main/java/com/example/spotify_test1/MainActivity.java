@@ -30,8 +30,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String CLIENT_ID = "78698dcc31fd4845919e96fc61514de8";
-    private static final String REDIRECT_URI = "http://localhost:8888/";
+    //e2ea72863e3a4ec196da146a74a79aac
+    //"78698dcc31fd4845919e96fc61514de8"
+    private static final String CLIENT_ID = "e2ea72863e3a4ec196da146a74a79aac";
+    private static final String REDIRECT_URI = "http://localhost:5037/";
     private SpotifyAppRemote mSpotifyAppRemote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
