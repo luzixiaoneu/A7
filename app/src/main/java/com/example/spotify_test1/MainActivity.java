@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
@@ -18,6 +19,14 @@ import com.spotify.protocol.types.Track;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
+
+import entity.IP;
+import entity.JsonPlaceHolderApi;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,10 +40,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button login = findViewById(R.id.login);
+        TextView ipInfo = findViewById(R.id.ip);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 spotifyLogin();
+            }
+        });
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://httpbin.org/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+        Call<IP> call = jsonPlaceHolderApi.getIp();
+        call.enqueue(new Callback<IP>() {
+            @Override
+            public void onResponse(Call<IP> call, Response<IP> response) {
+                if (response.isSuccessful()) {
+
+                    ipInfo.setText(response.body().getIpAddress());
+                }
+                else ipInfo.setText("Error");
+            }
+
+            @Override
+            public void onFailure(Call<IP> call, Throwable t) {
+                ipInfo.setText(t.getMessage());
             }
         });
     }
