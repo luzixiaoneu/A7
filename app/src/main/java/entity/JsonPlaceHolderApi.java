@@ -7,4 +7,6 @@ public interface JsonPlaceHolderApi {
 
     @GET("get")
     Call<IP> getIp();
+
+
 }

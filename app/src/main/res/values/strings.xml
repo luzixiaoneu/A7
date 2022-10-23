@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">spotify_test1</string>
+    <string name="web_service">Web Service</string>
 </resources>
