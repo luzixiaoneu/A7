@@ -41,9 +41,25 @@ public class Artist {
     @SerializedName("popularity")
     private int popularity;
 
+    @SerializedName("genres")
+    private String[] genres;
+
+    public String getGenres() {
+        String res = "";
+        for (String genre: genres) {
+            res += genre + "\n";
+        }
+
+        return res;
+    }
+
+
+
     public String getName() {
         return name;
     }
+
+
 
     @SerializedName("images")
     private List<Image> image;

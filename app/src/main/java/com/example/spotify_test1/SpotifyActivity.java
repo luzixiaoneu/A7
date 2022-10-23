@@ -34,8 +34,9 @@ public class SpotifyActivity extends AppCompatActivity {
     private String TOKEN = "";
     private TextView info;
     private ImageView icon;
-
+    private TextView popularity;
     private TextView name;
+    private TextView genre;
     private SpotifyAppRemote mSpotifyAppRemote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class SpotifyActivity extends AppCompatActivity {
         info.setText("Please Login First!");
         icon = findViewById(R.id.icon);
         name = findViewById(R.id.name);
+        popularity = findViewById(R.id.popularity);
+        genre = findViewById(R.id.genre);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +86,10 @@ public class SpotifyActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.d("passed", "onResponse: " + response.body().getFirstImageUrl());
                     Glide.with(getApplicationContext()).load(response.body().getFirstImageUrl()).into(icon);
-                    name.setText(response.body().getName());
+                    name.setText("Artist Name: " + response.body().getName());
+                    int popularityValue = response.body().getPopularity();
+                    popularity.setText("Rank: " + popularityValue);
+                    genre.setText("Genre: \n" + response.body().getGenres());
                 }
             }
 
