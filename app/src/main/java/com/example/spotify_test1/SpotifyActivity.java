@@ -3,6 +3,7 @@ package com.example.spotify_test1;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +39,10 @@ public class SpotifyActivity extends AppCompatActivity {
     private TextView popularity;
     private TextView name;
     private TextView genre;
-    private SpotifyAppRemote mSpotifyAppRemote;
+    private String iconUrl;
+    private int rank;
+    private String artistName;
+    private String genreString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -51,6 +56,8 @@ public class SpotifyActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         popularity = findViewById(R.id.popularity);
         genre = findViewById(R.id.genre);
+//
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,46 +69,75 @@ public class SpotifyActivity extends AppCompatActivity {
         fetchEminem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fetch();
+                runOnDifferentThread(view);
+
             }
         });
     }
 
     private void fetch() {
-        if (TOKEN.equals("")) {
-            info.setText("Please Signin First!");
-            openDialog();
-            return;
-        }
-                Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.spotify.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        JsonPlaceHolderArtists artists = retrofit.create(JsonPlaceHolderArtists.class);
-        Call<Artist> call = artists.getArtist("Bearer " + TOKEN);
-        call.enqueue(new Callback<Artist>() {
-            @Override
-            public void onResponse(Call<Artist> call, Response<Artist> response) {
-                Log.d("code", "" + response.code());
-                if (response.isSuccessful()) {
-                    Log.d("passed", "onResponse: " + response.body().getFirstImageUrl());
-                    Glide.with(getApplicationContext()).load(response.body().getFirstImageUrl()).into(icon);
-                    name.setText("Artist Name: " + response.body().getName());
-                    int popularityValue = response.body().getPopularity();
-                    popularity.setText("Rank: " + popularityValue);
-                    genre.setText("Genre: \n" + response.body().getGenres());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<Artist> call, Throwable t) {
-                Log.d("Error", "onFailure: " +  t.getMessage());
-            }
-        });
+       runOnUiThread(new Runnable() {
+           @Override
+           public void run() {
+               if (TOKEN.equals("")) {
+                   info.setText("Please Signin First!");
+                   openDialog();
+
+                   return;
+               }
+               Retrofit retrofit = new Retrofit.Builder()
+                       .baseUrl("https://api.spotify.com/")
+                       .addConverterFactory(GsonConverterFactory.create())
+                       .build();
+               JsonPlaceHolderArtists artists = retrofit.create(JsonPlaceHolderArtists.class);
+               Call<Artist> call = artists.getArtist("Bearer " + TOKEN);
+               final ProgressDialog progressDoalog;
+               progressDoalog = new ProgressDialog(SpotifyActivity.this);
+               progressDoalog.setMax(100);
+               progressDoalog.setMessage("Its loading....");
+               progressDoalog.setTitle("ProgressDialog bar example");
+               progressDoalog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+               // show it
+               progressDoalog.show();
+               call.enqueue(new Callback<Artist>() {
+                   @Override
+                   public void onResponse(Call<Artist> call, Response<Artist> response) {
+                       Log.d("code", "" + response.code());
+                       if (response.isSuccessful()) {
+                           Log.d("passed", "onResponse: " + response.body().getFirstImageUrl());
+                           Glide.with(getApplicationContext()).load(response.body().getFirstImageUrl()).into(icon);
+                           name.setText("Artist Name: " + response.body().getName());
+                           int popularityValue = response.body().getPopularity();
+                           popularity.setText("Rank: " + popularityValue);
+                           genre.setText("Genre: \n" + response.body().getGenres());
+                           artistName = response.body().getName();
+                           iconUrl = response.body().getFirstImageUrl();
+                           rank = response.body().getPopularity();
+                           genreString = response.body().getGenres();
+
+                       }
+                       progressDoalog.dismiss();
+                   }
+
+                   @Override
+                   public void onFailure(Call<Artist> call, Throwable t) {
+                       Log.d("Error", "onFailure: " +  t.getMessage());
+                       progressDoalog.dismiss();
+                   }
+               });
+
+           }
+       });
 
 
     }
 
+
+    public void runOnDifferentThread(View view) {
+        differentThread differentThread = new differentThread();
+        differentThread.start();
+    }
     private void openDialog() {
         AlertDialog dialog = new AlertDialog.Builder(SpotifyActivity.this)
                 .setTitle("Please Login first")
@@ -156,6 +192,39 @@ public class SpotifyActivity extends AppCompatActivity {
                     Log.d("default ", response.getType().toString());
                     // Handle other cases
             }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("icon", iconUrl);
+        outState.putString("genre", genreString);
+        outState.putString("name", artistName);
+        outState.putInt("rank", rank);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+
+
+        this.iconUrl = savedInstanceState.getString("icon");
+        this.genreString = savedInstanceState.getString("genre");
+        this.artistName = savedInstanceState.getString("name");
+        this.rank = savedInstanceState.getInt("rank");
+
+        this.genre.setText(genreString);
+        this.popularity.setText("" + rank);
+        Glide.with(getApplicationContext()).load(iconUrl).into(icon);
+        this.name.setText(artistName);
+
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    class differentThread extends Thread {
+        @Override
+        public void run() {
+            fetch();
         }
     }
 
