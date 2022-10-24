@@ -47,7 +47,7 @@ public class Artist {
     public String getGenres() {
         String res = "";
         for (String genre: genres) {
-            res += genre + "\n";
+            res += genre + ",";
         }
 
         return res;

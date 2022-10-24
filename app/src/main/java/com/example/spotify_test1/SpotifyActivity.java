@@ -201,6 +201,7 @@ public class SpotifyActivity extends AppCompatActivity {
         outState.putString("genre", genreString);
         outState.putString("name", artistName);
         outState.putInt("rank", rank);
+        outState.putString("TOKEN", TOKEN);
         super.onSaveInstanceState(outState);
     }
 
@@ -212,11 +213,12 @@ public class SpotifyActivity extends AppCompatActivity {
         this.genreString = savedInstanceState.getString("genre");
         this.artistName = savedInstanceState.getString("name");
         this.rank = savedInstanceState.getInt("rank");
+        this.TOKEN = savedInstanceState.getString("TOKEN");
 
-        this.genre.setText(genreString);
-        this.popularity.setText("" + rank);
+        this.genre.setText("Genre: " + genreString);
+        this.popularity.setText("Rank: " + rank);
         Glide.with(getApplicationContext()).load(iconUrl).into(icon);
-        this.name.setText(artistName);
+        this.name.setText("Name: " + artistName);
 
         super.onRestoreInstanceState(savedInstanceState);
     }
