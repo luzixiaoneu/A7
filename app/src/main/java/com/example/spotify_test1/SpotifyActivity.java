@@ -31,8 +31,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class SpotifyActivity extends AppCompatActivity {
-    private static final String CLIENT_ID = "78698dcc31fd4845919e96fc61514de8";
-    private static final String REDIRECT_URI = "http://localhost:8888/";
+    private static final String CLIENT_ID = "e2ea72863e3a4ec196da146a74a79aac";
+    private static final String REDIRECT_URI = "http://localhost:5037/";
     private String TOKEN = "";
     private TextView info;
     private ImageView icon;
@@ -71,6 +71,17 @@ public class SpotifyActivity extends AppCompatActivity {
             public void onClick(View view) {
                 runOnDifferentThread(view);
 
+            }
+        });
+
+        Button playlistActivity = findViewById(R.id.button);
+        playlistActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), PlaylistActivity.class);
+                //pass token string through intent
+                intent.putExtra("TOKEN_STRING", TOKEN);
+                startActivity(intent);
             }
         });
     }
@@ -174,6 +185,7 @@ public class SpotifyActivity extends AppCompatActivity {
                 case TOKEN:
                     // Handle successful response
                     TOKEN = response.getAccessToken();
+
                     info.setText("Successfully Logged In!");
                     Log.d("good ", response.getAccessToken());
                     break;
@@ -229,5 +241,7 @@ public class SpotifyActivity extends AppCompatActivity {
         }
     }
 
-
+    public String getTOKEN(){
+        return this.TOKEN;
+    }
 }
