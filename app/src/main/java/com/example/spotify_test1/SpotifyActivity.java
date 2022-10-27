@@ -56,7 +56,7 @@ public class SpotifyActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         popularity = findViewById(R.id.popularity);
         genre = findViewById(R.id.genre);
-//
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +115,6 @@ public class SpotifyActivity extends AppCompatActivity {
                            iconUrl = response.body().getFirstImageUrl();
                            rank = response.body().getPopularity();
                            genreString = response.body().getGenres();
-
                        }
                        progressDoalog.dismiss();
                    }

@@ -28,6 +28,7 @@ class Followers {
     @SerializedName("total")
     Long total;
 }
+
 public class Artist {
     @SerializedName("external_urls")
     private ExternalUrls externalUrls;
@@ -49,7 +50,6 @@ public class Artist {
         for (String genre: genres) {
             res += genre + ",";
         }
-
         return res;
     }
 
@@ -58,7 +58,6 @@ public class Artist {
     public String getName() {
         return name;
     }
-
 
 
     @SerializedName("images")
