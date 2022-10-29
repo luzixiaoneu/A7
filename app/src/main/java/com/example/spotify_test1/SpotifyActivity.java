@@ -139,8 +139,6 @@ public class SpotifyActivity extends AppCompatActivity {
 
            }
        });
-
-
     }
 
 
@@ -239,9 +237,5 @@ public class SpotifyActivity extends AppCompatActivity {
         public void run() {
             fetch();
         }
-    }
-
-    public String getTOKEN(){
-        return this.TOKEN;
     }
 }
