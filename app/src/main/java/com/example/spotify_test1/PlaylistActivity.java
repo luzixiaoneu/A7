@@ -21,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PlaylistActivity extends AppCompatActivity {
     private String TOKEN;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,8 @@ public class PlaylistActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), response.body().getId(), Toast.LENGTH_LONG).show();
+                    userID = response.body().getId();
+                    Log.d("user id: ", userID);
                 }
             }
 
@@ -53,5 +55,9 @@ public class PlaylistActivity extends AppCompatActivity {
                 Log.d("Error", "onFailure: " +  t.getMessage());
             }
         });
+    }
+
+    public String getUserID(){
+        return userID;
     }
 }
