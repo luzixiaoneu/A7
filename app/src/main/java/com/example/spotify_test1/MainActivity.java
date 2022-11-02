@@ -21,5 +21,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button A8 = findViewById(R.id.a8);
+        A8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FirebaseActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
