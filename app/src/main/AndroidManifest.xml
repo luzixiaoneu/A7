@@ -14,9 +14,12 @@
         android:theme="@style/Theme.Spotify_test1"
         tools:targetApi="31">
         <activity
-            android:name=".FirebaseActivity"
-            android:label="Messaging system"
+            android:name=".SignUp"
             android:exported="false" />
+        <activity
+            android:name=".FirebaseActivity"
+            android:exported="false"
+            android:label="Messaging system" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -28,7 +31,7 @@
         </activity>
         <activity
             android:name=".SpotifyActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
