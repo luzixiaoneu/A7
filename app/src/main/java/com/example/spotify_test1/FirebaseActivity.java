@@ -60,6 +60,7 @@ public class FirebaseActivity extends AppCompatActivity {
                             Log.d("User status ", "User doesn't exist");
                         } else {
                             Intent start = new Intent(FirebaseActivity.this, StickerMessage.class);
+                            start.putExtra("Username", user.getUserName().toString());
                             startActivity(start);
                             Log.d("User status ", "Successfully logged in!");
                         }
