@@ -1,7 +1,6 @@
 package com.example.spotify_test1;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,77 +15,74 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import entity.User;
 
-public class SignUp extends AppCompatActivity {
-    //private FirebaseDatabase database;
-    private DatabaseReference ref;
-    private Button register;
+public class LoginActivity extends AppCompatActivity {
     private EditText editEmail;
     private EditText editPassword;
-    private User user;
+    private DatabaseReference ref;
+    private Button register;
+    private Button login;
     private Toast toast;
     private FirebaseAuth mAuth;
-    private EditText editName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_login);
 
-        //user = new User();
         mAuth = FirebaseAuth.getInstance();
-        register = (Button)findViewById(R.id.register);
         editEmail = (EditText) findViewById(R.id.email);
         editPassword = (EditText) findViewById(R.id.password);
-        editName = (EditText) findViewById(R.id.name);
-
+        register = (Button) findViewById(R.id.register);
+        login = (Button) findViewById(R.id.login);
+        ref = FirebaseDatabase.getInstance().getReference().child("User");
         register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signUp = new Intent(LoginActivity.this, SignUp.class);
+                startActivity(signUp);
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
-                String name = editName.getText().toString();
-                signUp(name, email, password);
+
+                login(email, password);
             }
         });
     }
 
-    private void signUp(String name, String email, String password){
-        // Code snippet from firebase password authentication
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+    public void login(String email, String password){
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            addUserToDatabase(name, email, mAuth.getCurrentUser().getUid());
-                            Log.d("Status ", "createUserWithEmail:success");
-                            Intent intent = new Intent(SignUp.this, LoginActivity.class);
+                            Log.d("Status ", "signInWithEmailAndPassword:success");
+                            Intent intent = new Intent(LoginActivity.this, UserViewActivity.class);
                             startActivity(intent);
-                            finish();
                         } else {
-                            Toast.makeText(SignUp.this, "User registration failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }
-
-    private void addUserToDatabase(String name, String email, String uid){
-        ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("user").child(uid).setValue(new User(name, email, uid));
     }
 
     public void showAToast(String message){
@@ -96,6 +92,7 @@ public class SignUp extends AppCompatActivity {
         toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

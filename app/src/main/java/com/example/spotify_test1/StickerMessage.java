@@ -14,8 +14,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class StickerMessage extends AppCompatActivity {
     private String userName;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,8 @@ public class StickerMessage extends AppCompatActivity {
         TextView text = (TextView) findViewById(R.id.textView1);
         text.setText(userName);
         createNotificationChannel();
+
+
     }
 
     public void createNotificationChannel() {
