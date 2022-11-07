@@ -1,6 +1,7 @@
 package com.example.spotify_test1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,13 @@ import entity.User;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private ArrayList<User> userList;
     private LayoutInflater mInflater;
+    private Context context;
     //private ItemClickListener mClickListener;
 
     UserAdapter(Context context, ArrayList<User> data) {
         this.mInflater = LayoutInflater.from(context);
         this.userList = data;
+        this.context = context;
     }
     @NonNull
     @Override
@@ -33,6 +36,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
         User currentUser = userList.get(position);
         holder.textName.setText(currentUser.getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, StickerMessage.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

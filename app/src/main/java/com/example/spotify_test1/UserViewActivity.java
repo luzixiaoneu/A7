@@ -37,14 +37,18 @@ public class UserViewActivity extends AppCompatActivity {
         userRecyclerView = findViewById(R.id.RecyclerView);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         userRecyclerView.setAdapter(adapter);
+        mAuth = FirebaseAuth.getInstance();
 
+        // display other users of the app in recyclerview when current user logs in
         ref.child("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userList.clear();
                 for (DataSnapshot userSnapshot: snapshot.getChildren()) {
                     User currentUser = userSnapshot.getValue(User.class);
-                    userList.add(currentUser);
+                    if(!currentUser.getUid().equals(mAuth.getCurrentUser().getUid())){
+                        userList.add(currentUser);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }

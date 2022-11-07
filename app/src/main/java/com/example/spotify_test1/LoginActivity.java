@@ -31,7 +31,7 @@ import entity.User;
 public class LoginActivity extends AppCompatActivity {
     private EditText editEmail;
     private EditText editPassword;
-    private DatabaseReference ref;
+    //private DatabaseReference ref;
     private Button register;
     private Button login;
     private Toast toast;
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.password);
         register = (Button) findViewById(R.id.register);
         login = (Button) findViewById(R.id.login);
-        ref = FirebaseDatabase.getInstance().getReference().child("User");
+        //ref = FirebaseDatabase.getInstance().getReference().child("User");
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

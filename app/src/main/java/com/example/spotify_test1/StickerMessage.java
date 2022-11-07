@@ -10,8 +10,10 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +21,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class StickerMessage extends AppCompatActivity {
     private String userName;
-    private FirebaseDatabase database;
+    private DatabaseReference ref;
+    private ImageView imageView1;
+    private ImageView imageView2;
+    private ImageView imageView3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,32 @@ public class StickerMessage extends AppCompatActivity {
         text.setText(userName);
         createNotificationChannel();
 
+        imageView1 = (ImageView) findViewById(R.id.imageView1);
+        imageView2 = (ImageView) findViewById(R.id.imageView2);
+        imageView3 = (ImageView) findViewById(R.id.imageView3);
 
+        imageView1.setImageResource(R.drawable.cat);
+        imageView1.setTag(R.drawable.cat);
+        imageView2.setImageResource(R.drawable.dog);
+        imageView2.setTag(R.drawable.dog);
+        imageView3.setImageResource(R.drawable.parrot);
+        imageView3.setTag(R.drawable.parrot);
+
+        //Log.d("Id ", getDrawableId(imageView1));
+
+        ref = FirebaseDatabase.getInstance().getReference();
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ref.child("user").child("images").push().setValue(getDrawableId(imageView1));
+            }
+        });
+    }
+
+    public String getDrawableId(ImageView iv) {
+        int i = (Integer) iv.getTag();
+        String s=String.valueOf(i);
+        return s;
     }
 
     public void createNotificationChannel() {
