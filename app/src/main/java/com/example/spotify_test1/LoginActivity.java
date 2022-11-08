@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Status ", "signInWithEmailAndPassword:success");
-                            Intent intent = new Intent(LoginActivity.this, UserViewActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, StickerActivity.class);
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();

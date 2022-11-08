@@ -57,6 +57,7 @@ public class SignUp extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
                 String name = editName.getText().toString();
@@ -67,6 +68,7 @@ public class SignUp extends AppCompatActivity {
 
     private void signUp(String name, String email, String password){
         // Code snippet from firebase password authentication
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                     @Override

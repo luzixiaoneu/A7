@@ -7,7 +7,11 @@ public class User {
     private String name;
     private String email;
     private String uid;
-
+    private boolean img1;
+    private boolean img2;
+    private boolean img3;
+    private boolean img4;
+    private boolean img5;
     public User(){
     }
 
@@ -39,6 +43,30 @@ public class User {
         this.name = name;
         this.email = email;
         this.uid = uid;
+        this.img1 = false;
+        this.img2 = false;
+        this.img3 = false;
+        this.img4 = false;
+        this.img5 = false;
     }
+
+    public boolean isImg1() {
+        return img1;
+    }
+
+    public boolean isImg2() {
+        return img2;
+    }
+    public boolean isImg3() {
+        return img3;
+    }
+
+    public boolean isImg4() {
+        return img4;
+    }
+    public boolean isImg5() {
+        return img5;
+    }
+
 
 }
