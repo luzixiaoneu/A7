@@ -65,4 +65,27 @@
         app:layout_constraintVertical_bias="0.106"
         app:srcCompat="@drawable/turtle" />
 
+    <TextView
+        android:id="@+id/history_textview"
+        android:layout_width="376dp"
+        android:layout_height="164dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <Button
+        android:id="@+id/history_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="get history"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/history_textview"
+        app:layout_constraintVertical_bias="0.187" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,12 @@ public class MessageActivity extends AppCompatActivity {
     private ImageView imageView2;
     private ImageView imageView3;
     private ImageView imageView4;
+    private TextView historyTV;
+    private Button history;
+    private int catStickerCount = 0;
+    private int dogStickerCount = 0;
+    private int parrotStickerCount = 0;
+    private int turtleStickerCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,8 @@ public class MessageActivity extends AppCompatActivity {
         imageView2 = (ImageView) findViewById(R.id.imageView2);
         imageView3 = (ImageView) findViewById(R.id.imageView3);
         imageView4 = (ImageView) findViewById(R.id.imageView4);
+        history = (Button) findViewById(R.id.history_button);
+        historyTV = (TextView) findViewById(R.id.history_textview);
 
         imageView1.setImageResource(R.drawable.cat);
         imageView1.setTag(R.drawable.cat);
@@ -65,6 +74,7 @@ public class MessageActivity extends AppCompatActivity {
                                 // Write was successful!
                                 // ...
                                 Toast.makeText(getApplicationContext(), "Sending Cat Sticker!", Toast.LENGTH_SHORT).show();
+                                catStickerCount++;
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -89,6 +99,7 @@ public class MessageActivity extends AppCompatActivity {
                                 // Write was successful!
                                 // ...
                                 Toast.makeText(getApplicationContext(), "Sending Dog Sticker!", Toast.LENGTH_SHORT).show();
+                                dogStickerCount++;
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -111,6 +122,7 @@ public class MessageActivity extends AppCompatActivity {
                                 // Write was successful!
                                 // ...
                                 Toast.makeText(getApplicationContext(), "Sending Parrot Sticker!", Toast.LENGTH_SHORT).show();
+                                parrotStickerCount++;
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -133,6 +145,7 @@ public class MessageActivity extends AppCompatActivity {
                                 // Write was successful!
                                 // ...
                                 Toast.makeText(getApplicationContext(), "Sending Turtle Sticker!", Toast.LENGTH_SHORT).show();
+                                turtleStickerCount++;
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -144,7 +157,18 @@ public class MessageActivity extends AppCompatActivity {
                         });
             }
         });
+
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                historyTV.setText("Cat stickers received: " + catStickerCount + "\n"
+                        + "Dog stickers received: " + dogStickerCount + "\n"
+                        + "Parrot stickers received: " + parrotStickerCount + "\n"
+                        + "Turtle stickers received: " + turtleStickerCount);
+            }
+        });
     }
+
 
     public int getDrawableId(ImageView iv) {
         /*int i = (Integer) iv.getTag();
