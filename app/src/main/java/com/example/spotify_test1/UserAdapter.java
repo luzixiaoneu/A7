@@ -39,7 +39,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, StickerMessage.class);
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("name", currentUser.getName());
+                intent.putExtra("uid", currentUser.getUid());
                 context.startActivity(intent);
             }
         });

@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editEmail = (EditText) findViewById(R.id.email);
         editPassword = (EditText) findViewById(R.id.password);
+        editPassword.setText("password");
         register = (Button) findViewById(R.id.register);
         login = (Button) findViewById(R.id.login);
         //ref = FirebaseDatabase.getInstance().getReference().child("User");
@@ -68,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(String email, String password){
+
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

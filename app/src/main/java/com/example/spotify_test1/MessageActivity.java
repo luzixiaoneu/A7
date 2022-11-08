@@ -8,19 +8,21 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.UploadTask;
 
-public class StickerMessage extends AppCompatActivity {
-    private String userName;
+import java.io.InputStream;
+
+public class MessageActivity extends AppCompatActivity {
     private DatabaseReference ref;
     private ImageView imageView1;
     private ImageView imageView2;
@@ -29,14 +31,14 @@ public class StickerMessage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sticker_message);
+        setContentView(R.layout.activity_message_activity);
 
-        Intent start = getIntent();
-        this.userName = start.getStringExtra("Username");
-        TextView text = (TextView) findViewById(R.id.textView1);
-        text.setText(userName);
+
+        String name = getIntent().getStringExtra("name");
+        String uid = getIntent().getStringExtra("uid");
         createNotificationChannel();
 
+        getSupportActionBar().setTitle(name);
         imageView1 = (ImageView) findViewById(R.id.imageView1);
         imageView2 = (ImageView) findViewById(R.id.imageView2);
         imageView3 = (ImageView) findViewById(R.id.imageView3);
@@ -48,21 +50,32 @@ public class StickerMessage extends AppCompatActivity {
         imageView3.setImageResource(R.drawable.parrot);
         imageView3.setTag(R.drawable.parrot);
 
-        //Log.d("Id ", getDrawableId(imageView1));
-
         ref = FirebaseDatabase.getInstance().getReference();
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ref.child("user").child("images").push().setValue(getDrawableId(imageView1));
+
+                ref.child("images").push().setValue(getDrawableId(imageView1));
+            }
+        });
+
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Uri uri = Uri.parse("android.resource://spotify_test1/drawable/image_name");
+                InputStream stream = getContentResolver().openInputStream(uri);
+                ref.child("images").push().setValue(getDrawableId(imageView2));
+                //UploadTask uploadTask;*/
             }
         });
     }
 
-    public String getDrawableId(ImageView iv) {
-        int i = (Integer) iv.getTag();
+    public int getDrawableId(ImageView iv) {
+        /*int i = (Integer) iv.getTag();
         String s=String.valueOf(i);
-        return s;
+        return s;*/
+
+        return (Integer) iv.getTag();
     }
 
     public void createNotificationChannel() {

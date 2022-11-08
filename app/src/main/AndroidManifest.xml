@@ -20,7 +20,7 @@
             android:name=".ReceiveNotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".StickerMessage"
+            android:name=".MessageActivity"
             android:exported="false" />
         <activity
             android:name=".SignUp"
