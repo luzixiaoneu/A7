@@ -31,7 +31,10 @@ public class StickerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String email = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_sticker);
+        getSupportActionBar().setTitle(email);
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
         img3 = findViewById(R.id.img3);
