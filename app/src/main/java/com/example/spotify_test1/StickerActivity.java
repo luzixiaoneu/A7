@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -51,22 +52,26 @@ public class StickerActivity extends AppCompatActivity {
         ref.child("user").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                Toast.makeText(getApplicationContext(), "Change!!!!!", Toast.LENGTH_SHORT);
                 for (DataSnapshot userSnapshot: snapshot.getChildren()) {
                     User currentUser = userSnapshot.getValue(User.class);
                     if(currentUser.getUid().equals(mAuth.getCurrentUser().getUid())){
                         if (!currentUser.isImg1()) {
                             img1.setVisibility(View.INVISIBLE);
                         }
+                        else img1.setVisibility(View.VISIBLE);
                         if (!currentUser.isImg2()) {
                             img2.setVisibility(View.INVISIBLE);
                         }
+                        else img2.setVisibility(View.VISIBLE);
                         if (!currentUser.isImg3()) {
                             img3.setVisibility(View.INVISIBLE);
                         }
+                        else img3.setVisibility(View.VISIBLE);
                         if (!currentUser.isImg4()) {
                             img4.setVisibility(View.INVISIBLE);
                         }
+                        else img4.setVisibility(View.VISIBLE);
                     }
                 }
 
