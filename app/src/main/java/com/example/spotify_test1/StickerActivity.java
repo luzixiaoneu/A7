@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +24,7 @@ public class StickerActivity extends AppCompatActivity {
     ImageView img2;
     ImageView img3;
     ImageView img4;
+    Button userView;
     private FirebaseAuth mAuth;
     private DatabaseReference ref;
     @Override
@@ -32,7 +35,14 @@ public class StickerActivity extends AppCompatActivity {
         img2 = findViewById(R.id.img2);
         img3 = findViewById(R.id.img3);
         img4 = findViewById(R.id.img4);
-
+        userView = findViewById(R.id.userView);
+        userView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StickerActivity.this, UserViewActivity.class);
+                startActivity(intent);
+            }
+        });
         ref = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();

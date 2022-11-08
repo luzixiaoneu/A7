@@ -1,5 +1,6 @@
 package com.example.spotify_test1;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -15,7 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.UploadTask;
@@ -23,49 +27,121 @@ import com.google.firebase.storage.UploadTask;
 import java.io.InputStream;
 
 public class MessageActivity extends AppCompatActivity {
-    private DatabaseReference ref;
+    private DatabaseReference mDatabase;
     private ImageView imageView1;
     private ImageView imageView2;
     private ImageView imageView3;
+    private ImageView imageView4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_activity);
-
-
         String name = getIntent().getStringExtra("name");
         String uid = getIntent().getStringExtra("uid");
         createNotificationChannel();
 
-        getSupportActionBar().setTitle(name);
+        getSupportActionBar().setTitle(uid);
         imageView1 = (ImageView) findViewById(R.id.imageView1);
         imageView2 = (ImageView) findViewById(R.id.imageView2);
         imageView3 = (ImageView) findViewById(R.id.imageView3);
+        imageView4 = (ImageView) findViewById(R.id.imageView4);
 
         imageView1.setImageResource(R.drawable.cat);
         imageView1.setTag(R.drawable.cat);
         imageView2.setImageResource(R.drawable.dog);
         imageView2.setTag(R.drawable.dog);
         imageView3.setImageResource(R.drawable.parrot);
-        imageView3.setTag(R.drawable.parrot);
+        imageView4.setTag(R.drawable.parrot);
 
-        ref = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mDatabase.child("user").child(uid).child("img1").setValue(true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Write was successful!
+                                // ...
+                                Toast.makeText(getApplicationContext(), "Sending Cat Sticker!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Write failed
+                                // ...
+                            }
+                        });
 
-                ref.child("images").push().setValue(getDrawableId(imageView1));
+
             }
         });
 
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Uri uri = Uri.parse("android.resource://spotify_test1/drawable/image_name");
-                InputStream stream = getContentResolver().openInputStream(uri);
-                ref.child("images").push().setValue(getDrawableId(imageView2));
-                //UploadTask uploadTask;*/
+                mDatabase.child("user").child(uid).child("img2").setValue(true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Write was successful!
+                                // ...
+                                Toast.makeText(getApplicationContext(), "Sending Dog Sticker!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Write failed
+                                // ...
+                            }
+                        });
+            }
+        });
+
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDatabase.child("user").child(uid).child("img3").setValue(true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Write was successful!
+                                // ...
+                                Toast.makeText(getApplicationContext(), "Sending Parrot Sticker!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Write failed
+                                // ...
+                            }
+                        });
+            }
+        });
+
+        imageView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDatabase.child("user").child(uid).child("img4").setValue(true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Write was successful!
+                                // ...
+                                Toast.makeText(getApplicationContext(), "Sending Turtle Sticker!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Write failed
+                                // ...
+                            }
+                        });
             }
         });
     }
