@@ -41,7 +41,7 @@ public class MessageActivity extends AppCompatActivity {
         String uid = getIntent().getStringExtra("uid");
         createNotificationChannel();
 
-        getSupportActionBar().setTitle(uid);
+        getSupportActionBar().setTitle(name);
         imageView1 = (ImageView) findViewById(R.id.imageView1);
         imageView2 = (ImageView) findViewById(R.id.imageView2);
         imageView3 = (ImageView) findViewById(R.id.imageView3);
