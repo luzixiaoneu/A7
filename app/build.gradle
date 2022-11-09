@@ -8,9 +8,11 @@ android {
         debug {
             storeFile file('/Users/anastasiasobolina/Desktop/A8/keystore')
             keyPassword 'signature'
+            keyAlias 'key0'
+            storePassword 'signature'
         }
     }
-    compileSdk 29
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.example.spotify_test1"
@@ -35,21 +37,21 @@ android {
 }
 
 dependencies {
-    implementation 'com.spotify.android:auth:1.2.5' // Maven dependency
+    implementation 'com.spotify.android:auth:2.0.2' // Maven dependency
 
     // All other dependencies for your app should also be here:
     implementation 'androidx.browser:browser:1.4.0'
     implementation files('libs/spotify-app-remote-release-0.7.2.aar')
-    implementation "com.google.code.gson:gson:2.8.6"
+    implementation 'com.google.code.gson:gson:2.10'
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     //implementation 'com.android.support:recyclerview-v7:28.0.0'
