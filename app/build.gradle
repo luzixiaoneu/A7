@@ -4,7 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    signingConfigs {
+        debug {
+            storeFile file('/Users/anastasiasobolina/Desktop/A8/keystore')
+            keyPassword 'signature'
+        }
+    }
+    compileSdk 29
 
     defaultConfig {
         applicationId "com.example.spotify_test1"
