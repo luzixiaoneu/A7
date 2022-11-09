@@ -1,10 +1,12 @@
 package com.example.spotify_test1;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,6 +23,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.UploadTask;
@@ -167,26 +172,67 @@ public class MessageActivity extends AppCompatActivity {
                         + "Turtle stickers received: " + turtleStickerCount);
             }
         });
+
+        mDatabase.child("user").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Intent intent = new Intent(MessageActivity.this, StickerActivity.class);
+
+                PendingIntent pIntent = PendingIntent.getActivity(MessageActivity.this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_IMMUTABLE);
+
+
+                String channelId = getString(R.string.channel_id);
+                NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(MessageActivity.this, channelId)
+                        //"Notification icons must be entirely white."
+                        .setSmallIcon(R.drawable.notification)
+                        .setContentTitle("You have received a notification")
+                        .setContentText("An Image has been sent to you")
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        // hide the notification after its selected
+                        .setAutoCancel(true)
+                        .addAction(R.drawable.notification, "Call", pIntent)
+                        .setContentIntent(pIntent);
+
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(MessageActivity.this);
+                // // notificationId is a unique int for each notification that you must define
+                notificationManager.notify(0, notifyBuild.build());
+
+                //Toast.makeText(getApplicationContext(), "Change", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
-    public int getDrawableId(ImageView iv) {
-        /*int i = (Integer) iv.getTag();
-        String s=String.valueOf(i);
-        return s;*/
-
-        return (Integer) iv.getTag();
-    }
 
     public void createNotificationChannel() {
-        // This must be called early because it must be called before a notification is sent.
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.channel_name);
             String description = getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, importance);
+            NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
@@ -195,34 +241,6 @@ public class MessageActivity extends AppCompatActivity {
         }
     }
 
-    public void sendNotification(View view) {
-
-        // Prepare intent which is triggered if the
-        // notification is selected
-        Intent intent = new Intent(this, ReceiveNotificationActivity.class);
-
-        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_IMMUTABLE);
-
-
-        // Build notification
-        // Need to define a channel ID after Android Oreo
-        String channelId = getString(R.string.channel_id);
-        NotificationCompat.Builder notifyBuild = new NotificationCompat.Builder(this, channelId)
-                //"Notification icons must be entirely white."
-                .setSmallIcon(R.drawable.cat)
-                .setContentTitle("New mail from " + "test@test.com")
-                .setContentText("Subject")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                // hide the notification after its selected
-                .setAutoCancel(true)
-                .addAction(R.drawable.cat, "Call", pIntent)
-                .setContentIntent(pIntent);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        // // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(0, notifyBuild.build());
-
-    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
